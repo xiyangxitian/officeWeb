@@ -40,8 +40,23 @@
       <artifactId>itext-asian</artifactId>
       <version>5.2.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>layout</artifactId>
+      <version>7.0.7</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.4</version>
+    </dependency>
+
 
   </dependencies>
+
+
 
   <build>
     <finalName>OfficeWeb</finalName>
