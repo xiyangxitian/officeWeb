@@ -13,6 +13,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.text.Document;
 
+import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 

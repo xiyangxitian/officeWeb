@@ -53,6 +53,7 @@
       <artifactId>layout</artifactId>
       <version>7.0.7</version>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa -->
     <dependency>
       <groupId>com.itextpdf</groupId>
