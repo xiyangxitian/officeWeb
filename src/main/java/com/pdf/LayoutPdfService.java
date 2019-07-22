@@ -5,6 +5,7 @@ import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.Style;
@@ -53,6 +54,21 @@ public class LayoutPdfService {
         Paragraph p = new Paragraph("BCD");
         doc.add(p);
         doc.add(p);
+        doc.close();
+    }
+
+    static void createPdf() throws IOException {
+
+        PdfFont font = PdfFontFactory.createFont("E:\\my\\pdf\\tool\\fzfs_GBK.ttf", PdfEncodings.IDENTITY_H,false);
+        Style style = new Style();
+        style.setFont(font);
+        style.setBold();
+        style.setFontSize(30);
+
+        PdfWriter pdfWriter = new PdfWriter(new FileOutputStream("E:\\java\\aa.pdf"));
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        Document doc = new Document(pdfDocument, PageSize.A4);
+
         doc.close();
     }
 
