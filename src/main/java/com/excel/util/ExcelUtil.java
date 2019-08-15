@@ -85,7 +85,8 @@ public class ExcelUtil {
         if(CellValues.length>0){
             for(int i=0;i<CellValues.length;i++){
                 HSSFCell cell = row.createCell(i);
-                cell.setCellValue(new HSSFRichTextString(CellValues[i]));
+//                cell.setCellValue(new HSSFRichTextString(CellValues[i]));
+                cell.setCellValue(Double.parseDouble(CellValues[i]));
                 //一般单元格内容靠左或居中
                 cell.setCellStyle(style);
             }
