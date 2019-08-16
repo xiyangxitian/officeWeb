@@ -91,9 +91,24 @@ public class Test2 {
 
     @Test
     public void test7(){
-        String a = "34.59";
+        char a = '1';
+        System.out.println((int)a);
+        char b = '2';
+        System.out.println((int)b);
+        char c = '.';
+        System.out.println((int)c);
+        c= '0';
+        System.out.println((int)c);
+        c= '9';
+        System.out.println((int)c);
     }
 
+    @Test
+    public void test8(){
+        String a = ".893.4";
+        String s = FormatUtil.toMaxScale(a, 6, 1, true);
+        System.out.println(s);
+    }
 
 
 }

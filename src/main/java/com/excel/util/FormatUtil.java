@@ -22,11 +22,38 @@ public class FormatUtil {
      * 最多保留几位小数，字符串的情况，这个要做大数据的问题
      * @param value  数据
      * @param scale  精度
-     * @param mode  截断的模式
+     * @param mode  截断的模式 1.四舍五入  其他截断
      * @param showZero  最后的零要不要显示
      * @return
      */
     public static String toMaxScale(String value,int scale,int mode,boolean showZero){
+        //验证数据
+        if(value.startsWith(".")){
+            value = 0 + value;
+        }
+        if(value.indexOf(".") != value.lastIndexOf(".")){
+//            System.out.println("数据value不合法，包含多个.");
+            try {
+                throw new Exception("数据value不是数字！");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        char[] chars = value.toCharArray();
+        for(char c : chars){
+            int cs = (int)c;
+            if(cs != 46 && (cs < 48 || cs > 57) ){
+//                System.out.println("数据value不合法!");
+                try {
+                    throw new Exception("数据value不是数字！");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }
+
         //如果有小数点的情况 先去掉最后面的0
         if(value.contains(".") && scale >= 1){
             while(!showZero && value.endsWith("0")){
@@ -54,7 +81,7 @@ public class FormatUtil {
                             }
                             sb.append("1");
                             BigDecimal b1 = new BigDecimal(sb.toString());
-                            BigDecimal sum = b.add(b1);
+                            BigDecimal sum = b.add(b1);//这个数会带.0 这种格式，所以要再次执行来保证格式是符合要求的。
                             value = sum.toString();
                             value = toMaxScale(value,scale,mode,showZero);
                         }else{
