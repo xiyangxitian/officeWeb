@@ -1,5 +1,6 @@
 package com.excel.util;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 public class FormatUtil {
@@ -12,11 +13,83 @@ public class FormatUtil {
      */
     public static String toMaxScale(Double value,int scale){
         NumberFormat f = NumberFormat.getInstance();
-        f.setMaximumFractionDigits(scale);//如果不加默认是3位并且每百位带上,
-        f.setGroupingUsed(false);
+        f.setMaximumFractionDigits(scale);
+        f.setGroupingUsed(false);//如果不加默认是3位并且每百位带上,
         return f.format(value);
     }
 
+    /**
+     * 最多保留几位小数，字符串的情况，这个要做大数据的问题
+     * @param value  数据
+     * @param scale  精度
+     * @param mode  截断的模式
+     * @param showZero  最后的零要不要显示
+     * @return
+     */
+    public static String toMaxScale(String value,int scale,int mode,boolean showZero){
+        //如果有小数点的情况 先去掉最后面的0
+        if(value.contains(".") && scale >= 1){
+            while(!showZero && value.endsWith("0")){
+                value = value.substring(0,value.length()-1);
+            }
+            //结尾是不是小数点
+            if(value.endsWith(".")){
+                value = value.substring(0,value.length()-1);
+            }
+            if(value.contains(".")){
+                //判断小数点后的位数
+                int len =  value.length() - 1 - value.indexOf(".");
+                if(len > scale){
+                    if(mode == 1){ //模式1  四舍五入
+                        //精度的下五位  如3.145  精度是2  下一位就是5
+                        String lastIndexValue = value.substring(value.indexOf(".")+scale+1,value.indexOf(".")+scale+2);
+                        int i = Integer.parseInt(lastIndexValue);
+                        if(i>=5){
+                            //相应位加1
+                            value = value.substring(0,value.indexOf(".")+scale+1);
+                            BigDecimal b = new BigDecimal(value);
+                            StringBuffer sb = new StringBuffer("0.");
+                            for(int j = 1;j < scale;j++){
+                                sb.append("0");
+                            }
+                            sb.append("1");
+                            BigDecimal b1 = new BigDecimal(sb.toString());
+                            BigDecimal sum = b.add(b1);
+                            value = sum.toString();
+                            value = toMaxScale(value,scale,mode,showZero);
+                        }else{
+                            value = value.substring(0,value.indexOf(".")+scale+1);
+                        }
+                    }else{ //直接截取相应的位数
+                        value = value.substring(0,value.indexOf(".")+scale+1);
+                    }
+                }
+            }
+        }else{
+            if(scale<=0 && value.contains(".")){
+                value = value.substring(0,value.indexOf("."));
+            }
+        }
+        if(showZero && scale>=1){
+            if(value.contains(".")){
+                String s = value.substring(value.indexOf(".") + 1);
+                if(s.length()<scale){
+                    StringBuffer sb = new StringBuffer();
+                    for(int i = 0 ;i < scale - s.length();i++){
+                        sb.append("0");
+                    }
+                    value = value + sb.toString();
+                }
+            }else{
+                StringBuffer sb = new StringBuffer();
+                while(scale-- > 0){
+                    sb.append("0");
+                }
+                value = value + "." + sb.toString();
+            }
+        }
+        return value;
+    }
 
 
 
